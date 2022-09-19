@@ -1,7 +1,8 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import { useFetchPokemon } from "../hooks/useFetchPokemon";
 import { PokemonList } from "./PokemonList";
 import { BrowserRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 const mockedUsedNavigate = jest.fn();
 
@@ -30,21 +31,32 @@ describe("Shows loader when fetching data", () => {
   });
 });
 
-// describe("Tests for PokemonList View", () => {
-//   beforeEach(() => {
-//     //@ts-ignore: Unreachable code error
-//     useFetchPokemon.mockImplementation(() => ({
-//       data: { results: [] },
-//       isLoading: false,
-//       isError: false,
-//     }));
-//     render(<PokemonList />, { wrapper: BrowserRouter });
-//   });
+describe("Tests for PokemonList View", () => {
+  beforeEach(() => {
+    //@ts-ignore: Unreachable code error
+    useFetchPokemon.mockImplementation(() => ({
+      data: {
+        results: [
+          { name: "ditto", url: "" },
+          { name: "bulbasaur", url: "" },
+        ],
+      },
+      isLoading: false,
+      isError: false,
+    }));
+    render(<PokemonList />);
+  });
 
-//   it("Renders view", () => {
-//     screen.debug();
-//     expect(screen.getByText("Pokemons")).toBeInTheDocument();
-//     expect(screen.getByRole("input")).toBeInTheDocument();
-//     //await screen.findByText("bulbasaur");
-//   });
-// });
+  it("Renders view", async () => {
+    expect(screen.getByText("Pokemons")).toBeInTheDocument();
+    const bulbasaurCard = await screen.findByText("bulbasaur");
+    expect(bulbasaurCard).toBeInTheDocument();
+    const filterInput = screen.getByRole("input");
+    expect(filterInput).toBeInTheDocument();
+    await userEvent.type(filterInput, "dit");
+    waitFor(() => {
+      expect(screen.queryByText("bulbasaur")).not.toBeInTheDocument();
+    });
+    expect(await screen.findByText("ditto")).toBeInTheDocument;
+  });
+});

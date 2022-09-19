@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -37,4 +38,4 @@ const PokemonCard = ({ name, url = "" }: PokemonCardProps) => {
   );
 };
 
-export default PokemonCard;
+export default memo(PokemonCard);

@@ -1,27 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
-import PokemonCard from "../components/PokemonCard";
 import SearchBox from "../components/SearchBox";
 import { Pokemon } from "../types/pokemonTypes";
 import { useFetchPokemon } from "../hooks/useFetchPokemon";
+import PokemonCard from "../components/PokemonCard";
 
 export const PokemonList = () => {
   const { data = {}, isLoading, isError } = useFetchPokemon();
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [searchString, setSearchString] = useState<string>("");
 
-  const filterPokemonList = (value: string) => {
+  const filterPokemonList = () => {
+    if (!searchString) {
+      return data?.results || [];
+    }
     const filtered = data.results.filter(({ name }: Pokemon) => {
-      return name.includes(value);
+      return name.includes(searchString);
     });
-    setPokemons(filtered);
+    return filtered;
   };
 
-  useEffect(() => {
-    if (data?.results) {
-      console.log("Results", data.results);
-      setPokemons(data.results);
-    }
-  }, [data]);
+  const filteredList = filterPokemonList();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -37,12 +35,12 @@ export const PokemonList = () => {
         Pokemons
       </Typography>
       <Box sx={{ marginY: "2rem" }}>
-        <SearchBox onChange={filterPokemonList} />
+        <SearchBox onChange={(text: string) => setSearchString(text)} />
       </Box>
 
       <Box sx={{ width: "90%", display: "flex", flexFlow: "wrap" }}>
-        {pokemons.map(({ name, url }: Pokemon) => {
-          return <PokemonCard name={name} url={url} />;
+        {filteredList.map(({ name, url }: Pokemon) => {
+          return <PokemonCard key={name} name={name} url={url} />;
         })}
       </Box>
     </Box>
