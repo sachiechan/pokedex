@@ -1,3 +1,4 @@
+import React from "react";
 import { screen, render } from "@testing-library/react";
 import { useFetchPokemonDetails } from "../hooks/useFetchPokemonDetails";
 import { PokemonDetails } from "./PokemonDetails";
@@ -30,6 +31,7 @@ jest.mock("../hooks/useFetchPokemonDetails", () => ({
 
 describe("Shows loader when fetching data", () => {
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore: Unreachable code error
     useFetchPokemonDetails.mockImplementation(() => ({
       data: {},
@@ -46,6 +48,7 @@ describe("Shows loader when fetching data", () => {
 
 describe("Renders the component", () => {
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore: Unreachable code error
     useFetchPokemonDetails.mockImplementation(() => ({
       data: mockPokemon,

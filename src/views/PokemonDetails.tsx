@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Typography, Box, Stack, Divider, Avatar } from "@mui/material";
 import { useFetchPokemonDetails } from "../hooks/useFetchPokemonDetails";

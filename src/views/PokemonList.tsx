@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import SearchBox from "../components/SearchBox";
 import { Pokemon } from "../types/pokemonTypes";

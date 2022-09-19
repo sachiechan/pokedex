@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PokemonDetails, PokemonResponse } from "../types/pokemonTypes";
+import { PokemonDetails } from "../types/pokemonTypes";
 
 const defaultAPI = axios.create({
   baseURL: "https://pokeapi.co/api/v2/",
