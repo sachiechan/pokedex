@@ -1,11 +1,17 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import TextField from "@mui/material/TextField";
 
-export default function SearchBox({ onChange }) {
+interface SearchBoxProps {
+  onChange: (value: string) => void;
+}
+
+export default function SearchBox({ onChange }: SearchBoxProps) {
   const [value, setValue] = useState("");
 
-  const handleTextChange = (e) => {
+  const handleTextChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setValue(e.target.value);
     debouncedResults(e.target.value);
   };
